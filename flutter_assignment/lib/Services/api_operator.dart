@@ -3,7 +3,7 @@ import '../Models/episode_info.dart';
 
 class ApiOperator {
 
-  Future<void> getEpisodes() async {
+  Future<List<EpisodeInfo>> getEpisodes() async {
 
     late int amountOfPages;
     List<dynamic> episodesInfo = [];
@@ -20,15 +20,7 @@ class ApiOperator {
     );
     QueryResult queryResult = await qlClient.query(
       QueryOptions(
-        document: gql(
-          """query {
-  episodes {
-    info {
-      pages
-    }
-  }
-}""",
-        ),
+        document: gql("""query { episodes { info { pages } } }""",),
       ),
     );
 
@@ -37,19 +29,7 @@ class ApiOperator {
     for(int i = 1; i <= amountOfPages; i++) {
       queryResult = await qlClient.query(
         QueryOptions(
-          document: gql(
-            """query {
-  episodes(page: $i) {
-		info {
-      count
-    }
-    results {
-      id
-      name
-    }
-  }
-}""",
-          ),
+          document: gql("""query { episodes(page: $i) { info { count } results { id name } } }""",),
         ),
       );
 
@@ -62,6 +42,7 @@ class ApiOperator {
       }
     }
 
+    return episodes;
   }
 
 }

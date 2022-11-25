@@ -13,15 +13,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
 
-  void getEpisodes() async{
-    ApiOperator operator = new ApiOperator();
-    await operator.getEpisodes();
+  List<EpisodeInfo> allEpisodes = [];
+
+  void setEpisodes() async{
+    ApiOperator operator = ApiOperator();
+    List<EpisodeInfo> temp = await operator.getEpisodes();
+    setState((){
+      allEpisodes = temp;
+    });
   }
 
   @override
   void initState(){
     super.initState();
-    getEpisodes();
+    setEpisodes();
   }
 
   @override
