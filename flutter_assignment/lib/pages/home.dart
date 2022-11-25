@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
               ),
           );
         },
-        itemCount: 20,
+        itemCount: allEpisodes.length,
       ),
     );
   }
