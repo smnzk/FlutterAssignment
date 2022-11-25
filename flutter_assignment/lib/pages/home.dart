@@ -32,12 +32,58 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(115, 115, 115, 1),
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: const Center(
             child: Text('Rick and Morty character wiki',)
         ),
         backgroundColor: const Color.fromRGBO(128, 0, 64, 1),
+      ),
+      body: ListView.builder(
+        itemBuilder: (context, i) {
+          String title = allEpisodes[i].name;
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(13, 0, 13, 0),
+              child: Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 1.2,
+                      color: Color.fromRGBO(128, 0, 64, 1),
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(0,6,0,6),
+                  child: ListTile(
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
+                    ),
+                    tileColor: Colors.grey[900],
+                      title: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey
+                        ),
+                      ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                      child: Text(
+                        "Episode ${i + 1}",
+                        style: TextStyle(
+                          color: Colors.blueGrey
+                        ),
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                ),
+              ),
+          );
+        },
+        itemCount: 20,
       ),
     );
   }
