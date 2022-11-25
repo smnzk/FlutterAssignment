@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: const Center(
-            child: Text('Rick and Morty character wiki',)
+            child: Text('Rick and Morty wiki',)
         ),
         backgroundColor: const Color.fromRGBO(128, 0, 64, 1),
       ),
@@ -56,15 +56,16 @@ class _HomeState extends State<Home> {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(0,6,0,6),
                   child: ListTile(
-                    trailing: Icon(
+                    trailing: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
                     ),
                     tileColor: Colors.grey[900],
                       title: Text(
                         title,
-                        style: TextStyle(
-                          fontSize: 18,
+                        style: const TextStyle(
+                          fontSize: 18.3,
+                          letterSpacing: 0,
                           color: Colors.grey
                         ),
                       ),
@@ -72,7 +73,7 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.fromLTRB(0,10,0,0),
                       child: Text(
                         "Episode ${i + 1}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.blueGrey
                         ),
                       ),
