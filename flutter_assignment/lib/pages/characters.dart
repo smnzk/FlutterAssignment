@@ -38,19 +38,54 @@ class _CharactersPageState extends State<CharactersPage> {
         backgroundColor: const Color.fromRGBO(128, 0, 64, 1)
       ),
       body: GridView.count(
-        padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
+        padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
         crossAxisCount: 2,
-        childAspectRatio: 1/0.5,
+        childAspectRatio: 1/0.7,
         children: List.generate(allCharacters.length, (index) {
-        return ListTile(
-          leading: Image(
-            image: NetworkImage(allCharacters[index].image),
-          ),
-          title: Text(
-            allCharacters[index].name,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.grey
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(7,0,7,15),
+          child: Material(
+            elevation: 20,
+            color: Color.fromRGBO(35, 35, 35, 1),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0,10,0,0),
+                  child: ListTile(
+                    leading: Image(
+                      image: NetworkImage(allCharacters[index].image),
+                    ),
+                    title: Text(
+                      allCharacters[index].name,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.grey
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8,10,0,0),
+                  child: Text(
+                    'Species: ${allCharacters[index].species}',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8,6,0,0),
+                  child: Text(
+                    'Last seen: ${allCharacters[index].lastSeen}',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );

@@ -64,7 +64,7 @@ class ApiOperator {
 
     QueryResult queryResult = await qlClient.query(
       QueryOptions(
-        document: gql("""query { episode(id: $episodeId) { characters { name image }}}""",),
+        document: gql("""query {episode(id: $episodeId) {characters {name image species location { name } } } }""",),
       ),
     );
 
@@ -73,7 +73,9 @@ class ApiOperator {
     for(int i = 0; i < charactersTemp.length; i++) {
       String name = queryResult.data!['episode']['characters'][i]['name'];
       String image = queryResult.data!['episode']['characters'][i]['image'];
-      characters.add(CharacterInfo(name: name, image: image));
+      String species = queryResult.data!['episode']['characters'][i]['species'];
+      String lastSeen = queryResult.data!['episode']['characters'][i]['location']['name'];
+      characters.add(CharacterInfo(name: name, image: image, species: species, lastSeen: lastSeen));
     }
 
     return characters;
