@@ -32,22 +32,28 @@ class _CharactersPageState extends State<CharactersPage> {
   Widget build(BuildContext context) {
     print(allCharacters);
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
         title: Text("Characters in this episode"),
         backgroundColor: const Color.fromRGBO(128, 0, 64, 1)
       ),
       body: GridView.count(
-        // Create a grid with 2 columns. If you change the scrollDirection to
-        // horizontal, this produces 2 rows.
+        padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
         crossAxisCount: 2,
-        // Generate 100 widgets that display their index in the List.
-        children: List.generate(100, (index) {
-          return Center(
-            child: Text(
-              'Item $index',
-              style: Theme.of(context).textTheme.headline5,
+        childAspectRatio: 1/0.5,
+        children: List.generate(allCharacters.length, (index) {
+        return ListTile(
+          leading: Image(
+            image: NetworkImage(allCharacters[index].image),
+          ),
+          title: Text(
+            allCharacters[index].name,
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.grey
             ),
-          );
+          ),
+        );
         }),
       ),
     );
