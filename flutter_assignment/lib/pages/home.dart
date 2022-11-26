@@ -78,7 +78,9 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/characters');
+                    },
                   ),
                 ),
               ),
