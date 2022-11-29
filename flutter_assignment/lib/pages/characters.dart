@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_assignment/Models/character_info.dart';
 import 'package:flutter_assignment/Services/api_operator.dart';
 
+import '../Models/locator.dart';
+
 class CharactersPage extends StatefulWidget {
   const CharactersPage({Key? key}) : super(key: key);
 
@@ -16,8 +18,7 @@ class _CharactersPageState extends State<CharactersPage> {
   List<CharacterInfo> allCharacters = [];
 
   void setCharacters(int id) async {
-    ApiOperator operator = ApiOperator();
-    List<CharacterInfo> temp = await operator.getCharacters(id);
+    List<CharacterInfo> temp = await locator.get<ApiOperator>().getCharacters(id);
     setState(() {
       allCharacters = temp;
     });

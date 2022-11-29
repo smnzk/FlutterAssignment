@@ -1,15 +1,11 @@
 import 'package:flutter_assignment/Models/character_info.dart';
-import 'package:flutter_assignment/Queries/queries.dart';
+import 'package:flutter_assignment/Models/locator.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../Models/episode_info.dart';
+import '../graphql_config/client_config.dart';
+import '../graphql_config/queries.dart';
 
 class ApiOperator {
-
-  final HttpLink link = HttpLink("https://rickandmortyapi.com/graphql");
-
-  late GraphQLClient qlClient;
-
-  Queries queries = Queries();
 
   Future<List<EpisodeInfo>> getEpisodes() async {
 
@@ -17,27 +13,18 @@ class ApiOperator {
     List<dynamic> episodesTemp = [];
     List<EpisodeInfo> episodes = [];
 
-    qlClient = GraphQLClient(
-      link: link,
-      cache: GraphQLCache(
-        store:
-        HiveStore(),
-      ),
-    );
-
-
-    QueryResult queryResult = await qlClient.query(
+    QueryResult queryResult = await locator.get<GraphClient>().getClient().query(
       QueryOptions(
-        document: gql(queries.getPagesQuery()),
+        document: gql(locator.get<Queries>().getPagesQuery()),
       ),
     );
 
     amountOfPages = queryResult.data!['episodes']['info']['pages'];
 
     for(int i = 1; i <= amountOfPages; i++) {
-      queryResult = await qlClient.query(
+      queryResult = await locator.get<GraphClient>().getClient().query(
         QueryOptions(
-          document: gql(queries.getEpisodesQuery(i)),
+          document: gql(locator.get<Queries>().getEpisodesQuery(i)),
         ),
       );
 
@@ -59,17 +46,9 @@ class ApiOperator {
     List<dynamic> charactersTemp = [];
     List<CharacterInfo> characters = [];
 
-    qlClient = GraphQLClient(
-      link: link,
-      cache: GraphQLCache(
-        store:
-        HiveStore(),
-      ),
-    );
-
-    QueryResult queryResult = await qlClient.query(
+    QueryResult queryResult = await locator.get<GraphClient>().getClient().query(
       QueryOptions(
-        document: gql(queries.getCharactersQuery(episodeId)),
+        document: gql(locator.get<Queries>().getCharactersQuery(episodeId)),
       ),
     );
 

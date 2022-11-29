@@ -3,6 +3,8 @@ import 'package:flutter_assignment/Models/episode_info.dart';
 import 'package:flutter_assignment/Services/api_operator.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
+import '../Models/locator.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -15,8 +17,7 @@ class _HomeState extends State<Home> {
   List<EpisodeInfo> allEpisodes = [];
 
   void setEpisodes() async{
-    ApiOperator operator = ApiOperator();
-    List<EpisodeInfo> temp = await operator.getEpisodes();
+    List<EpisodeInfo> temp = await locator.get<ApiOperator>().getEpisodes();
     setState((){
       allEpisodes = temp;
     });
