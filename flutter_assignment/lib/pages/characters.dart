@@ -23,10 +23,6 @@ class _CharactersPageState extends State<CharactersPage> {
     });
   }
 
-  @override
-  void initState(){
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +33,7 @@ class _CharactersPageState extends State<CharactersPage> {
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        title: Text("Characters in this episode"),
+        title: Center(child: Text("Characters in this episode")),
         backgroundColor: const Color.fromRGBO(128, 0, 64, 1)
       ),
       body: GridView.count(

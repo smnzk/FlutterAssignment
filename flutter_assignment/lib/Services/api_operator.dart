@@ -4,7 +4,12 @@ import '../Models/episode_info.dart';
 
 class ApiOperator {
 
-  HttpLink link = HttpLink("https://rickandmortyapi.com/graphql");
+  final HttpLink link = HttpLink("https://rickandmortyapi.com/graphql");
+
+  late GraphQLClient qlClient;
+
+  final String pagesQuery = "query { episodes { info { pages } } }";
+
 
   Future<List<EpisodeInfo>> getEpisodes() async {
 
@@ -12,8 +17,7 @@ class ApiOperator {
     List<dynamic> episodesTemp = [];
     List<EpisodeInfo> episodes = [];
 
-
-    GraphQLClient qlClient = GraphQLClient(
+    qlClient = GraphQLClient(
       link: link,
       cache: GraphQLCache(
         store:
@@ -21,9 +25,10 @@ class ApiOperator {
       ),
     );
 
+
     QueryResult queryResult = await qlClient.query(
       QueryOptions(
-        document: gql("""query { episodes { info { pages } } }""",),
+        document: gql(pagesQuery),
       ),
     );
 
@@ -32,19 +37,20 @@ class ApiOperator {
     for(int i = 1; i <= amountOfPages; i++) {
       queryResult = await qlClient.query(
         QueryOptions(
-          document: gql("""query { episodes(page: $i) { info { count } results { id name } } }""",),
+          document: gql("""query { episodes(page: $i) { info { count } results { id name } } }"""),
         ),
       );
 
       episodesTemp = queryResult.data!['episodes']['results'];
 
       for (int k = 0; k < episodesTemp.length; k++) {
-        int id = int.parse(queryResult.data!['episodes']['results'][k]['id']);
-        String name = queryResult.data!['episodes']['results'][k]['name'];
-        episodes.add(EpisodeInfo(id: id, name: name));
+        var current = queryResult.data!['episodes']['results']['k'];
+        episodes.add(EpisodeInfo(
+            id: current['id'],
+            name: current['name'])
+        );
       }
     }
-
     return episodes;
   }
 
@@ -53,8 +59,7 @@ class ApiOperator {
     List<dynamic> charactersTemp = [];
     List<CharacterInfo> characters = [];
 
-
-    GraphQLClient qlClient = GraphQLClient(
+    qlClient = GraphQLClient(
       link: link,
       cache: GraphQLCache(
         store:
@@ -71,15 +76,15 @@ class ApiOperator {
     charactersTemp = queryResult.data!['episode']['characters'];
 
     for(int i = 0; i < charactersTemp.length; i++) {
-      String name = queryResult.data!['episode']['characters'][i]['name'];
-      String image = queryResult.data!['episode']['characters'][i]['image'];
-      String species = queryResult.data!['episode']['characters'][i]['species'];
-      String lastSeen = queryResult.data!['episode']['characters'][i]['location']['name'];
-      characters.add(CharacterInfo(name: name, image: image, species: species, lastSeen: lastSeen));
+      var current = queryResult.data!['episode']['characters'][i];
+      characters.add(CharacterInfo(
+          name: current['name'],
+          image: current['image'],
+          species: current['species'],
+          lastSeen: current['location']['name'])
+      );
     }
-
     return characters;
-
   }
 
 }
