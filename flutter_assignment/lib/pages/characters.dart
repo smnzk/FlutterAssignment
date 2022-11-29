@@ -11,12 +11,13 @@ class CharactersPage extends StatefulWidget {
 
 class _CharactersPageState extends State<CharactersPage> {
 
-  int episodeId= 1;
+  Map data = {};
+
   List<CharacterInfo> allCharacters = [];
 
-  void setCharacters() async {
+  void setCharacters(int id) async {
     ApiOperator operator = ApiOperator();
-    List<CharacterInfo> temp = await operator.getCharacters(episodeId);
+    List<CharacterInfo> temp = await operator.getCharacters(id);
     setState(() {
       allCharacters = temp;
     });
@@ -25,12 +26,14 @@ class _CharactersPageState extends State<CharactersPage> {
   @override
   void initState(){
     super.initState();
-    setCharacters();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(allCharacters);
+
+    data = ModalRoute.of(context)!.settings.arguments as Map;
+    setCharacters(data['id']);
+
     return Scaffold(
       backgroundColor: Colors.grey[900],
       appBar: AppBar(

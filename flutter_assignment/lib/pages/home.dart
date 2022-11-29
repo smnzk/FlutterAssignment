@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
       body: ListView.builder(
         itemBuilder: (context, i) {
           String title = allEpisodes[i].name;
+          int episodeId = allEpisodes[i].id;
           return Padding(
             padding: const EdgeInsets.fromLTRB(13, 0, 13, 0),
               child: Container(
@@ -72,14 +73,20 @@ class _HomeState extends State<Home> {
                     subtitle: Padding(
                       padding: const EdgeInsets.fromLTRB(0,10,0,0),
                       child: Text(
-                        "Episode ${i + 1}",
+                        "Episode $episodeId",
                         style: const TextStyle(
                           color: Colors.blueGrey
                         ),
                       ),
                     ),
                     onTap: () {
-                      Navigator.pushNamed(context, '/characters');
+                      Navigator.pushNamed(
+                        context,
+                        '/characters',
+                        arguments: {
+                          'id': episodeId
+                        }
+                      );
                     },
                   ),
                 ),
