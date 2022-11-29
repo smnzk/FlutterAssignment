@@ -12,7 +12,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-
   List<EpisodeInfo> allEpisodes = [];
 
   void setEpisodes() async{
@@ -97,5 +96,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_assignment/Models/character_info.dart';
+import 'package:flutter_assignment/Queries/queries.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../Models/episode_info.dart';
 
@@ -8,8 +9,7 @@ class ApiOperator {
 
   late GraphQLClient qlClient;
 
-  final String pagesQuery = "query { episodes { info { pages } } }";
-
+  Queries queries = Queries();
 
   Future<List<EpisodeInfo>> getEpisodes() async {
 
@@ -28,7 +28,7 @@ class ApiOperator {
 
     QueryResult queryResult = await qlClient.query(
       QueryOptions(
-        document: gql(pagesQuery),
+        document: gql(queries.getPagesQuery()),
       ),
     );
 
@@ -37,16 +37,16 @@ class ApiOperator {
     for(int i = 1; i <= amountOfPages; i++) {
       queryResult = await qlClient.query(
         QueryOptions(
-          document: gql("""query { episodes(page: $i) { info { count } results { id name } } }"""),
+          document: gql(queries.getEpisodesQuery(i)),
         ),
       );
 
       episodesTemp = queryResult.data!['episodes']['results'];
 
       for (int k = 0; k < episodesTemp.length; k++) {
-        var current = queryResult.data!['episodes']['results']['k'];
+        var current = queryResult.data!['episodes']['results'][k];
         episodes.add(EpisodeInfo(
-            id: current['id'],
+            id: int.parse(current['id']),
             name: current['name'])
         );
       }
@@ -69,7 +69,7 @@ class ApiOperator {
 
     QueryResult queryResult = await qlClient.query(
       QueryOptions(
-        document: gql("""query {episode(id: $episodeId) {characters {name image species location { name } } } }""",),
+        document: gql(queries.getCharactersQuery(episodeId)),
       ),
     );
 
