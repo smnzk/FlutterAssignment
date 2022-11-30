@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_assignment/Models/episode_info.dart';
 import 'package:flutter_assignment/Services/api_operator.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../Models/locator.dart';
 
