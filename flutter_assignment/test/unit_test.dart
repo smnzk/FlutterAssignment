@@ -57,7 +57,7 @@ main() async {
     CharacterInfo character = CharacterInfo(name: 'Rick Sanchez', image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg', lastSeen: "Citadel of Ricks", species: "Human");
 
     bool same = characterResult.name == character.name && characterResult.image == character.image
-      && characterResult.species == character.species && characterResult.lastSeen == character.lastSeen;
+        && characterResult.species == character.species && characterResult.lastSeen == character.lastSeen;
 
     expect(same, true);
   });
