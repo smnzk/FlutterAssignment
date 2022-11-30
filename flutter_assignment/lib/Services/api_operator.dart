@@ -1,11 +1,13 @@
 import 'package:flutter_assignment/Models/character_info.dart';
 import 'package:flutter_assignment/Models/locator.dart';
+import 'package:flutter_assignment/graphql_config/client_config.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../Models/episode_info.dart';
-import '../graphql_config/client_config.dart';
 import '../graphql_config/queries.dart';
 
 class ApiOperator {
+
+  GraphQLClient qlClient = locator.get<GraphClient>().getClient();
 
   Future<List<EpisodeInfo>> getEpisodes() async {
 
@@ -13,7 +15,7 @@ class ApiOperator {
     List<dynamic> episodesTemp = [];
     List<EpisodeInfo> episodes = [];
 
-    QueryResult queryResult = await locator.get<GraphClient>().getClient().query(
+    QueryResult queryResult = await qlClient.query(
       QueryOptions(
         document: gql(locator.get<Queries>().getPagesQuery()),
       ),
@@ -22,7 +24,7 @@ class ApiOperator {
     amountOfPages = queryResult.data!['episodes']['info']['pages'];
 
     for(int i = 1; i <= amountOfPages; i++) {
-      queryResult = await locator.get<GraphClient>().getClient().query(
+      queryResult = await qlClient.query(
         QueryOptions(
           document: gql(locator.get<Queries>().getEpisodesQuery(i)),
         ),
@@ -46,7 +48,7 @@ class ApiOperator {
     List<dynamic> charactersTemp = [];
     List<CharacterInfo> characters = [];
 
-    QueryResult queryResult = await locator.get<GraphClient>().getClient().query(
+    QueryResult queryResult = await qlClient.query(
       QueryOptions(
         document: gql(locator.get<Queries>().getCharactersQuery(episodeId)),
       ),
